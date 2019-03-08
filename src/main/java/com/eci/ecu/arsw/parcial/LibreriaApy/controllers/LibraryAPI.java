@@ -5,6 +5,7 @@
  */
 package com.eci.ecu.arsw.parcial.LibreriaApy.controllers;
 
+import com.eci.ecu.arsw.parcial.LibreriaApy.entities.Book;
 import com.eci.ecu.arsw.parcial.LibreriaApy.persistance.libraryPersistanceException;
 import com.eci.ecu.arsw.parcial.LibreriaApy.services.LibraryServices;
 import java.util.logging.Level;
@@ -63,6 +64,18 @@ public class LibraryAPI {
         }
     }
     
+    @PutMapping
+    public  ResponseEntity<?> addBookToLibraryById(@PathVariable int id,@RequestBody Book lib)throws libraryPersistanceException, InterruptedException{
+        try {
+            Thread.sleep(60000);
+            ls.addBookById(id, lib);
+            
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        } catch (HTTPException ex) {
+            Logger.getLogger(LibraryAPI.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(ex.toString(),HttpStatus.valueOf(ex.getStatusCode()));
+        }
+    }
     
     
 }
